@@ -1,0 +1,268 @@
+<div class="container" style="margin-bottom: 50px;">
+  <div class="card mt-4">
+    <div class="card-header" style="display:flex; align-items: center;">
+      <span>Tutorial details</span>
+      <button ng-click="deleteTutorial()" ng-if="tutorial.isAuthor" class="btn btn-danger" style="margin-left:auto;">Delete
+        tutorial</button>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-sm-4 card-title">
+          <div style="display:flex; align-items:center;" ng-if="!editTitle">
+            <h3 class="display:inline;">
+              {{tutorial.title}}
+            </h3>
+            <span ng-if="tutorial.isAuthor" ng-click="startEditTitle()" class="p-2 ml-auto">
+              <i class="fas fa-pen"></i>
+            </span>
+          </div>
+          <div ng-if="editTitle">
+            <div class="form-group">
+              <div class="d-flex flex-row align-items-center">
+                <div class="form-label-group" style="width:100%;">
+                  <input id="title" type="text" ng-model="tutorial.title" class="form-control" placeholder="Title">
+                  <label for="title">Title</label>
+                </div>
+                <span ng-click="submitTitle()" class="p-2">
+                  <i class="fas fa-check"></i>
+                </span>
+                <span ng-click="resetTitle()" class="p-2">
+                  <i class="fas fa-times"></i>
+                </span>
+              </div>
+              <small class="text-danger" ng-if="!tutorial.title">Can not be empty</small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <strong>Favorites count: </strong><span class="card-text">{{tutorial.favoritesCount}}</span>
+      </div>
+      <div ng-if="!editDescription">
+        <strong>Description: </strong><span class="card-text">{{tutorial.description}}</span>
+        <span ng-if="tutorial.isAuthor" ng-click="startEditDescription()" class="p-2 ml-auto">
+          <i class="fas fa-pen"></i>
+        </span>
+      </div>
+      <div ng-if="editDescription">
+        <div class="form-group">
+          <div class="d-flex flex-row align-items-center">
+            <div class="form-label-group" style="width:100%;">
+              <input id="description" type="text" ng-model="tutorial.description" class="form-control" placeholder="description">
+              <label for="description">Description</label>
+            </div>
+            <span ng-click="submitDescription()" class="p-2">
+              <i class="fas fa-check"></i>
+            </span>
+            <span ng-click="resetDescription()" class="p-2">
+              <i class="fas fa-times"></i>
+            </span>
+          </div>
+          <small class="text-danger" ng-if="!tutorial.description">Can not be empty</small>
+        </div>
+      </div>
+      <div ng-click="postFavorite(!tutorial.favorited, index)">
+        Favorite:
+        <span ng-if="!favoriteLoading">
+          <i ng-if="tutorial.favorited" class="fas fa-heart fa-2x"></i>
+          <i ng-if="!tutorial.favorited" class="far fa-heart fa-2x"></i>
+        </span>
+        <span ng-if="favoriteLoading">
+          <i class="fa fa-spinner fa-spin fa-2x"></i>
+        </span>
+      </div>
+    </div>
+    <div class="card-footer text-muted">
+      <p class="card-text">Created by {{tutorial.author.username}} at {{formatDate(tutorial.createdAt)}}</p>
+    </div>
+  </div>
+
+  <div class="card mt-4">
+    <div class="card-header">
+      Tutorial steps
+    </div>
+    <div class="card-body">
+      <ol class="list-group">
+        <li class="list-group-item" ng-repeat="step in tutorial.steps">
+          <div ng-if="editStepPosition !== $index" class="d-flex flex-row align-items-center">
+            <div>
+              <div>
+                <strong>Step {{$index + 1}}</strong>
+              </div>
+              <div>
+                <strong>Title: </strong><span>{{step.title}}</span>
+              </div>
+              <div>
+                <strong>Description: </strong><span>{{step.description}}</span>
+              </div>
+              <div>
+                <strong>Level: </strong><span>{{step.level}}</span>
+              </div>
+            </div>
+            <span ng-if="tutorial.isAuthor" ng-click="startStepEdit(step, $index)" class="p-2 ml-auto">
+              <i class="fas fa-pen"></i>
+            </span>
+          </div>
+          <div ng-if="editStepPosition === $index">
+            <div class="d-flex flex-row align-items-center">
+              <div style="width: 100%;">
+                <div class="form-group">
+                  <div class="form-label-group">
+                    <input id="stepTitle{{$index}}" type="text" ng-model="step.title" class="form-control" placeholder="Step title">
+                    <label for="stepTitle{{$index}}">Step title</label>
+                    <small class="text-danger" ng-if="!step.title">Can not be empty</small>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="form-label-group">
+                    <input id="stepDescription{{$index}}" type="text" ng-model="step.description" class="form-control"
+                      placeholder="Step description">
+                    <label for="stepDescription{{$index}}">Step description</label>
+                    <small class="text-danger" ng-if="!step.description">Can not be empty</small>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="form-label-group">
+                    <select ng-options="level for level in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" ng-model="step.level" class="form-control"></select>
+                  </div>
+                </div>
+              </div>
+              <span ng-click="submitStep(step, $index)" class="p-2">
+                <i class="fas fa-check"></i>
+              </span>
+              <span ng-click="resetStep(step, $index)" class="p-2">
+                <i class="fas fa-times"></i>
+              </span>
+              <span ng-click="removeStep(step, $index)" class="p-2">
+                <i class="fas fa-trash"></i>
+              </span>
+            </div>
+          </div>
+        </li>
+        <li ng-if="!showAddNewStep && tutorial.isAuthor" class="list-group-item">
+          <div ng-click="toggleShowAddNewStep()" class="btn btn-primary float-right">Add new step <i class="fas fa-plus"></i></div>
+        </li>
+        <li ng-hide="!showAddNewStep" class="list-group-item">
+          <div class="form-group">
+            <div class="form-label-group">
+              <input type="text" ng-model="stepTitle" id="stepTitle" class="form-control" placeholder="Step title">
+              <label for="stepTitle">Step title</label>
+              <small class="text-danger" ng-if="stepValidated && !stepTitle">Can not be empty</small>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-label-group">
+              <input type="text" ng-model="stepDescription" id="stepDescription" class="form-control" placeholder="Step description">
+              <label for="stepDescription">Step description</label>
+              <small class="text-danger" ng-if="stepValidated && !stepDescription">Can not be empty</small>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-label-group">
+              <select class="form-control" ng-model="stepLevel">
+                <option ng-repeat="level in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">{{level}}</option>
+              </select>
+              <small class="text-danger" ng-if="stepValidated && !stepLevel">Can not be empty</small>
+            </div>
+          </div>
+          <div ng-click="addNewStep()" class="btn btn-primary">Add step</div>
+          <div ng-click="toggleShowAddNewStep()" class="btn btn-danger">Cancel</div>
+        </li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="card card-outline-secondary my-4">
+    <div class="card-header">
+      Tutorial Reviews
+    </div>
+    <div class="card-body">
+      <div ng-repeat="review in reviews">
+        <div>
+          <b style="margin-right: 10px;">Likes: {{review.likesCount}}</b>
+          <span ng-if="!likeLoading" ng-click="postLike(!review.liked, $index)">
+            <i ng-if="review.liked" class="fas fa-thumbs-up fa-2x"></i>
+            <i ng-if="!review.liked" class="far fa-thumbs-up fa-2x"></i>
+          </span>
+          <span ng-if="likeLoading">
+            <i class="fa fa-spinner fa-spin fa-2x"></i>
+          </span>
+        </div>
+        <div ng-if="editReviewPosition !== $index" class="d-flex flex-row align-items-center">
+          <div>{{review.body}}</div>
+          <span ng-click="startReviewEdit(review, $index)" class="p-2 ml-auto">
+            <i ng-if="review.isAuthor" class="fas fa-pen"></i>
+          </span>
+        </div>
+        <div ng-if="editReviewPosition === $index">
+          <div class="d-flex flex-row align-items-center">
+            <input type="text" ng-model="review.body" class="form-control">
+            <span ng-click="submitReview(review, $index)" class="p-2">
+              <i class="fas fa-check"></i>
+            </span>
+            <span ng-click="resetReview(review, $index)" class="p-2">
+              <i class="fas fa-times"></i>
+            </span>
+            <span ng-click="removeReview(review, $index)" class="p-2">
+              <i class="fas fa-trash"></i>
+            </span>
+          </div>
+          <small class="text-danger" ng-if="!review.body">Can not be empty</small>
+        </div>
+        <div>
+          <small class="text-muted">Posted by {{review.author.username}} on {{formatDate(review.createdAt)}}</small>
+        </div>
+        <hr>
+      </div>
+      <form name="tutorialForm">
+        <div class="form-group">
+          <div class="form-label-group">
+            <input type="text" ng-model="body" id="body" class="form-control" placeholder="Body" required>
+            <label for="body">Body</label>
+            <small class="text-danger" ng-if="reviewValidated && !body">Can not be empty</small>
+          </div>
+        </div>
+        <div class="btn btn-primary float-right" ng-click="postReview()">Post a review</div>
+        <div ng-if=(errorMessage) class="alert alert-danger">{{errorMessage}}</div>
+      </form>
+    </div>
+  </div>
+  <div class="card mt-4">
+    <div class="card-header">
+      <span>Tutorial gallery</span>
+      <!-- <button ng-click="uploadImage()" ng-if="tutorial.isAuthor" class="btn btn-danger" style="margin-left:auto;">Delete tutorial</button> -->
+    </div>
+    <div class="card-body">
+      <ol class="list-group">
+        <div class="row">
+          <div ng-if="images" ng-repeat="image in images" class="col-md-4" style="max-height: 200px; margin-top: 15px; margin-bottom: 15px;">
+            <div ng-if="imageLoading !== $index" ng-click="deleteImage(image, $index)">
+              <i class="fas fa-trash col-12"></i>
+            </div>
+            <div class="row" ng-if="imageLoading !== $index">
+              <a class="col-12" href={{image.image}} target="_blank" style="height:150px">
+                <img style="max-width: 100%; max-height: 100%;" ng-src="{{image.image}}">
+              </a>
+            </div>
+            <span ng-if="imageLoading === $index">
+              <i class="fa fa-spinner fa-spin fa-2x"></i>
+            </span>
+            <hr>
+          </div>
+        </div>
+        <div class="row">
+            <div class="custom-file col-7">
+              <input type="file" class="custom-file-input" id="inputGroupFile01" ng-model="image.src" accept="image/*"
+                select-ng-files>
+              <label class="custom-file-label" for="inputGroupFile01">{{!image.src ? 'Choose file' : 'File selected'}}</label>
+            </div>
+            <div class="col-5">
+              <button class="btn btn-info float-right" ng-disabled="!image.src" ng-click="uploadImage()">Upload</button>
+            </div>
+        </div>
+        
+      </ol>
+    </div>
+  </div>
+
+</div>

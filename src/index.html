@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Tutor Pro</title>
+  <!-- Bootstrap core CSS-->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom fonts for this template-->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="css/sb-admin.css" rel="stylesheet">
+  <script type="text/javascript" src="vendor/angularjs/1.6.4/angular.min.js"></script>
+  <script type="text/javascript" src="vendor/angularjs/1.6.4/angular-route.js"></script>
+  <script type="text/javascript" src="vendor/angularjs/1.6.4/angular-cookies.js"></script>
+  <script type="text/javascript" src="controllers/tutorial-post.js"></script>
+  <script type="text/javascript" src="controllers/tutorial-list.js"></script>
+  <script type="text/javascript" src="controllers/tutorial-details.js"></script>
+  <script type="text/javascript" src="controllers/register.js"></script>
+  <script type="text/javascript" src="controllers/login.js"></script>
+  <script type="text/javascript" src="controllers/tutor-pro.js"></script>
+  <script type="text/javascript" src="services/session.js"></script>
+  <script type="text/javascript" src="services/api-config.js"></script>
+  <script type="text/javascript" src="app.js"></script>
+</head>
+
+<body ng-app="tutorPro" id="page-top" ng-controller="TutorProController">
+  <nav ng-if="!!Session.get()" class="navbar navbar-expand navbar-dark bg-dark static-top">
+    <a class="navbar-brand mr-1" href="#!/tutorials">Tutor Pro</a>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item ng-class:{active: location.path() === '/tutorials'}">
+        <a class="nav-link" href="#!tutorials">
+          <i class="fas fa-list"></i>
+          <span>Tutorial list</span>
+        </a>
+      </li>
+      <li class="nav-item ng-class:{active: location.path() === '/tutorial-post'}">
+        <a class="nav-link" href="#!tutorial-post">
+          <i class="fas fa-file"></i>
+          <span>Tutorial post</span>
+        </a>
+      </li>
+      <li class="nav-item dropdown no-arrow">
+        <a class="nav-link dropdown-toggle">
+          <i class="fas fa-sign-out-alt fa-fw" ng-click="logout()"></i>
+        </a>
+      </li>
+    </ul>
+  </nav>
+  <div id="container-fluid">
+    <div>
+      <div ng-view>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

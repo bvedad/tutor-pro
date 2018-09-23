@@ -1,0 +1,57 @@
+<div style="margin-top: 50px; margin-bottom: : 50px;" class="container">
+  <div class="card card-login mx-auto mt-5">
+    <div class="card-header">
+      Enter tutorial
+    </div>
+    <div class="card-body">
+        <div class="form-group">
+          <div class="form-label-group">
+            <input type="text" ng-model="tutorial.title" id="title" class="form-control" placeholder="Title" required>
+            <label for="title">Title</label>
+            <small class="text-danger" ng-if="validated && !tutorial.title">Can not be empty</small>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="form-label-group">
+            <textarea rows="5" type="text" ng-model="tutorial.description" class="form-control" placeholder="Description"></textarea>
+              <small class="text-danger" ng-if="validated && !tutorial.description">Can not be empty</small>
+          </div>
+        </div>
+    </div>
+    <div class="card-header">
+      Tutorial steps
+    </div>
+    <div class="card-body">
+      <ol class="list-group">
+        <li class="list-group-item" ng-repeat="step in tutorial.steps">
+          <div class="form-group">
+            <div class="form-label-group">
+              <input type="text" ng-model="step.title" id="stepTitle{{$index}}" class="form-control" placeholder="Step title">
+              <label for="stepTitle{{$index}}">Step title</label>
+              <small class="text-danger" ng-if="validated && !step.title">Can not be empty</small>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-label-group">
+              <textarea rows="5" type="text" ng-model="step.description" class="form-control" placeholder="Step description"></textarea>
+              <small class="text-danger" ng-if="validated && !step.description">Can not be empty</small>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-label-group">
+              <select class="form-control" ng-model="step.level">
+                <option ng-repeat="level in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">{{level}}</option>
+              </select>
+              <small class="text-danger" ng-if="validated && !step.level">Can not be empty</small>
+            </div>
+          </div>
+          <div ng-click="removeStep($index)" class="btn btn-danger float-right">Remove <i class="fas fa-minus"></i></div>
+        </li>
+      </ol>
+
+      <div ng-click="addNewStep($index)" class="btn btn-primary float-right"><i class="fas fa-plus"></i></div>
+      <div style="margin-top: 50px;" class="btn btn-primary btn-block" ng-click="createTutorial()">Create tutorial</div>
+      <div ng-if=(errorMessage) class="alert alert-danger">{{errorMessage}}</div>
+    </div>
+  </div>
+</div>

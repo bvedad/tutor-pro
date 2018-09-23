@@ -1,0 +1,76 @@
+<div class="container">
+  <div class="card card-register mx-auto mt-5">
+    <div class="card-header">Register an Account</div>
+    <div class="card-body">
+      <form name="registerForm">
+        <div class="form-group">
+          <div class="form-row">
+            <div class="col-md-6">
+              <div class="form-label-group">
+                <input type="text" name="firstName" id="firstName" ng-model="user.firstName" class="form-control" placeholder="First name"
+                  required autofocus="autofocus">
+                <label for="firstName">First name</label>
+                <small class="text-danger" ng-if="validated && !registerForm.firstName.$valid">Can not be empty</small>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-label-group">
+                <input type="text" name="lastName" id="lastName" ng-model="user.lastName" class="form-control" placeholder="Last name" required>
+                <label for="lastName">Last name</label>
+                <small class="text-danger" ng-if="validated && !registerForm.lastName.$valid">Can not be empty</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="form-row">
+            <div class="col-md-6">
+              <div class="form-label-group">
+                <input type="email" name="inputEmail" id="inputEmail" ng-model="user.inputEmail" class="form-control" placeholder="Email address"
+                  required>
+                <label for="inputEmail">Email address</label>
+                <small class="text-danger" ng-if="validated && !registerForm.inputEmail.$valid">Email not valid</small>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-label-group">
+                <input type="text" name="username" id="username" ng-model="user.username" class="form-control" placeholder="Username" required>
+                <label for="username">Username</label>
+                <small class="text-danger" ng-if="validated && !registerForm.username.$valid">Email not valid</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="form-row">
+            <div class="col-md-6">
+              <div class="form-label-group">
+                <input minlength=6 maxlength=20 type="password" name="inputPassword" id="inputPassword" ng-model="user.inputPassword" class="form-control"
+                  placeholder="Password" required>
+                <label for="inputPassword">Password</label>
+                <small class="text-danger" ng-if="validated && (!registerForm.inputPassword.$valid || user.inputPassword !== user.confirmPassword)">{{!registerForm.inputPassword.$valid
+                  ? 'Between 6 and 20 characters' : user.inputPassword !== user.confirmPassword ? 'Passwords do not match'
+                  : ''}}</small>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-label-group">
+                <input minlength=6 maxlength=20 type="password" name="confirmPassword" id="confirmPassword" ng-model="user.confirmPassword"
+                  class="form-control" placeholder="Confirm password" required>
+                <label for="confirmPassword">Confirm password</label>
+                <small class="text-danger" ng-if="validated && (!registerForm.inputPassword.$valid || user.inputPassword !== user.confirmPassword)">{{!registerForm.inputPassword.$valid
+                  ? 'Between 6 and 20 characters' : user.inputPassword !== user.confirmPassword ? 'Passwords do not match'
+                  : ''}}</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <a class="btn btn-primary btn-block" ng-click="register()">Register</a>
+        <div ng-if=(errorMessage) class="alert alert-danger">{{errorMessage}}</div>
+      </form>
+      <div class="text-center">
+        <a class="d-block small mt-3" href="#!login">Login Page</a>
+      </div>
+    </div>
+  </div>
+</div>
