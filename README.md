@@ -2,6 +2,8 @@
 
 Tutorpro in MEAN stack (Mongo, Express, Angular, Node)
 
+[App demo](https://tutor-pro.herokuapp.com)
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development purposes.
