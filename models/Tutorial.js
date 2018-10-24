@@ -38,7 +38,6 @@ TutorialSchema.methods.toJSONFor = function (user) {
     updatedAt: this.updatedAt,
     favorited: user ? user.isFavorite(this._id) : false,
     favoritesCount: this.favoritesCount,
-    steps: this.steps,
     author: this.author,
     isAuthor: user ? user._id.equals(this.author._id) : null,
     images: this.images,

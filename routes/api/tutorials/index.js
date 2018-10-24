@@ -11,9 +11,7 @@ router.param('tutorial', function (req, res, next, slug) {
     .populate('author')
     .then(function (tutorial) {
       if (!tutorial) { return res.sendStatus(404); }
-
       req.tutorial = tutorial;
-
       return next();
     }).catch(next);
 });
@@ -79,20 +77,26 @@ router.post('/', auth.required, function (req, res, next) {
     tutos.title = req.body.title;
     tutos.description = req.body.description;
     tutos.author = user;
-    tutos.steps = [];    
+    tutos.steps = [];
+    let myArray = [];
     return tutos.save().then((tutorial) => {
       req.body.steps.forEach(element => {
         var step = new Step();
         step.title = element.title;
         step.description = element.description;
         step.level = element.level;
-        step.tutorial = req.tutorial;
+        step.tutorial = tutorial;
         step.author = user;
-        step.save();
-        tutorial.steps.push(step);
+        myArray.push(step);
       });
-      tutorial.save().then(() => {
-        return res.json(tutorial.toJSONFor(user));
+      return Step.insertMany(myArray, function (err, mongooseDocuments) {
+        console.log()
+        if(err) {
+          return next(err);
+        } else {
+          tutorial.steps = mongooseDocuments;
+          return res.json(tutorial.toJSONFor(user));
+        }
       });
     });
   }).catch(next);
@@ -104,7 +108,6 @@ router.get('/:tutorial', auth.optional, function (req, res, next) {
     req.payload ? User.findById(req.payload.id) : null,
     Tutorial.findOne({ _id: req.tutorial._id })
     .populate('author')
-    .populate('steps')
   ])
     .then(function (results) {
       return res.json(results[1].toJSONFor(results[0]));

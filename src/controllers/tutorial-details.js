@@ -1,5 +1,6 @@
-function TutorialDetailsController($scope, $http, $routeParams, $location, Session, ApiConfig) {
+function TutorialDetailsController($scope, $http, $routeParams, $location, $q,Session, ApiConfig) {
   $scope.image = {};
+
   //fetch tutorial details
   $http.get(`api/tutorials/${$routeParams.id}`, ApiConfig.get())
     .then((res) => {
@@ -10,6 +11,16 @@ function TutorialDetailsController($scope, $http, $routeParams, $location, Sessi
       //todo bvedad show error
     });
 
+
+  //fetch steps
+  $http.get(`api/tutorials/${$routeParams.id}/steps`, ApiConfig.get())
+  .then((res) => {
+    $scope.steps = res.data;
+  })
+  .catch((e) => {
+    //todo bvedad show error
+  });
+
   //fetch reviews
   $http.get(`api/tutorials/${$routeParams.id}/reviews`, ApiConfig.get())
     .then((res) => {
@@ -19,6 +30,7 @@ function TutorialDetailsController($scope, $http, $routeParams, $location, Sessi
       //todo bvedad show error
     });
 
+  //fetch images
   $http.get(`api/tutorials/${$routeParams.id}/images`, ApiConfig.get())
   .then((res) => {
     $scope.images = res.data;
@@ -99,7 +111,7 @@ function TutorialDetailsController($scope, $http, $routeParams, $location, Sessi
       "level": $scope.stepLevel
     }, ApiConfig.get())
       .then((res) => {
-        $scope.tutorial.steps.push(res.data);
+        $scope.steps.steps.push(res.data);
         $scope.showAddNewStep = false;
         clearStepInput();
       })
@@ -181,7 +193,7 @@ function TutorialDetailsController($scope, $http, $routeParams, $location, Sessi
     $http.delete(`api/tutorials/${$routeParams.id}/steps/${step._id}`, ApiConfig.get())
       .then((res) => {
         $scope.editStepPosition = null;
-        $scope.tutorial.steps.splice(index, 1);
+        $scope.steps.steps.splice(index, 1);
       })
       .catch((e) => {
         //todo bvedad show error message
