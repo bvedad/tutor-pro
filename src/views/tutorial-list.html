@@ -1,7 +1,7 @@
 <div class="card-header">
   Tutorial list
 </div>
-<nav ng-if="tutorials && tutorials.tutorials.length" class="mt-2" aria-label="Page navigation example" style="display:flex; justify-content: center;">
+<nav ng-if="tutorials && tutorials.tutorials.length" class="mt-2 d-flex justify-content-center" aria-label="Page navigation example">
   <ul class="pagination">
     <li ng-click="loadPage(tutorials.page - 1)" class="page-item ng-class:{disabled:tutorials.page == 1}"><span class="page-link">Previous</span></li>
     <li ng-click="loadPage($index + 1)" ng-repeat="page in [].constructor(tutorials.pages) track by $index" class="page-item ng-class:{active:tutorials.page === ($index + 1)}"><a
@@ -16,7 +16,7 @@
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">{{tutorial.title}}</h5>
-          <p class="card-text" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{tutorial.description}}</p>
+          <p class="card-text abbreviate-text">{{tutorial.description}}</p>
           <a href="#!tutorials/{{tutorial._id}}" class="btn btn-primary">More details</a>
         </div>
         <div class="card-footer text-muted">

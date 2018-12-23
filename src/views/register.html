@@ -2,7 +2,7 @@
   <div class="card card-register mx-auto mt-5">
     <div class="card-header">Register an Account</div>
     <div class="card-body">
-      <form name="registerForm">
+      <form name="registerForm" novalidate>
         <div class="form-group">
           <div class="form-row">
             <div class="col-md-6">
@@ -65,7 +65,7 @@
             </div>
           </div>
         </div>
-        <a class="btn btn-primary btn-block" ng-click="register()">Register</a>
+        <input type="submit" class="btn btn-primary btn-block" ng-click="register()" value="Register">
         <div ng-if=(errorMessage) class="alert alert-danger">{{errorMessage}}</div>
       </form>
       <div class="text-center">

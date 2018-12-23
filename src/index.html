@@ -6,14 +6,17 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Tutor Pro</title>
-  <!-- Bootstrap core CSS-->
-  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Custom fonts for this template-->
-  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+    crossorigin="anonymous">
   <link href="css/sb-admin.css" rel="stylesheet">
-  <script type="text/javascript" src="vendor/angularjs/1.6.4/angular.min.js"></script>
-  <script type="text/javascript" src="vendor/angularjs/1.6.4/angular-route.js"></script>
-  <script type="text/javascript" src="vendor/angularjs/1.6.4/angular-cookies.js"></script>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-route.js"></script>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-cookies.js"></script>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-touch.js"></script>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-animate.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.min.js"></script>
   <script type="text/javascript" src="controllers/tutorial-post.js"></script>
   <script type="text/javascript" src="controllers/tutorial-list.js"></script>
   <script type="text/javascript" src="controllers/tutorial-details.js"></script>
@@ -42,17 +45,39 @@
         </a>
       </li>
       <li class="nav-item dropdown no-arrow">
-        <a class="nav-link dropdown-toggle">
-          <i class="fas fa-sign-out-alt fa-fw" ng-click="logout()"></i>
-        </a>
+        <div ng-controller="LoginModalDemoCtrl as $ctrl" class="modal-demo">
+          <script type="text/ng-template" id="myModalContent.html">
+              <div class="modal-header">
+                  <h3 class="modal-title" id="modal-title">Logout</h3>
+              </div>
+              <div class="modal-body" id="modal-body">
+                Are you sure you want to logout?
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-outline-danger" type="button" ng-click="$ctrl.logout()">Logout</button>
+                <button class="btn btn-outline-secondary" type="button" ng-click="$ctrl.cancel()">Cancel</button>
+              </div>
+          </script>
+          <script type="text/ng-template" id="stackedModal.html">
+              <div class="modal-header">
+                  <h3 class="modal-title" id="modal-title-{{name}}">The {{name}} modal!</h3>
+              </div>
+              <div class="modal-body" id="modal-body-{{name}}">
+                  Having multiple modals open at once is probably bad UX but it's technically possible.
+              </div>
+          </script>
+          <a class="nav-link dropdown-toggle" ng-click="$ctrl.open()">
+            <i class="fas fa-sign-out-alt fa-fw"></i>
+          </a>
+          <div class="modal-parent">
+          </div>
+        </div>
       </li>
     </ul>
   </nav>
+
   <div id="container-fluid">
-    <div>
-      <div ng-view>
-      </div>
-    </div>
+    <div ng-view></div>
   </div>
 </body>
 

@@ -1,4 +1,4 @@
-<div style="margin-top: 50px; margin-bottom: : 50px;" class="container">
+<div class="container mt-5 mb-5">
   <div class="card card-login mx-auto mt-5">
     <div class="card-header">
       Enter tutorial
@@ -50,7 +50,7 @@
       </ol>
 
       <div ng-click="addNewStep($index)" class="btn btn-primary float-right"><i class="fas fa-plus"></i></div>
-      <div style="margin-top: 50px;" class="btn btn-primary btn-block" ng-click="createTutorial()">Create tutorial</div>
+      <div class="btn btn-primary btn-block mt-5" ng-click="createTutorial()">Create tutorial</div>
       <div ng-if=(errorMessage) class="alert alert-danger">{{errorMessage}}</div>
     </div>
   </div>

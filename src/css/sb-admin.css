@@ -287,6 +287,12 @@ body.fixed-nav.sidebar-toggled #content-wrapper {
   max-width: 40rem;
 }
 
+.abbreviate-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .form-label-group {
   position: relative;
 }
@@ -372,4 +378,8 @@ body.sidebar-toggled footer.sticky-footer {
   body.sidebar-toggled footer.sticky-footer {
     width: calc(100% - 90px);
   }
+}
+
+.modal-backdrop {
+    opacity:0.5 !important;
 }

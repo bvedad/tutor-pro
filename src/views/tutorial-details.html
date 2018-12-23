@@ -1,15 +1,15 @@
-<div class="container" style="margin-bottom: 50px;">
+<div class="container mb-5">
   <div class="card mt-4">
-    <div class="card-header" style="display:flex; align-items: center;">
+    <div class="card-header d-flex align-items-center">
       <span>Tutorial details</span>
-      <button ng-click="deleteTutorial()" ng-if="tutorial.isAuthor" class="btn btn-danger" style="margin-left:auto;">Delete
+      <button ng-click="deleteTutorial()" ng-if="tutorial.isAuthor" class="btn btn-outline-danger ml-auto">Delete
         tutorial</button>
     </div>
     <div class="card-body">
       <div class="row">
         <div class="col-sm-4 card-title">
-          <div style="display:flex; align-items:center;" ng-if="!editTitle">
-            <h3 class="display:inline;">
+          <div class="d-flex align-items-center" ng-if="!editTitle">
+            <h3>
               {{tutorial.title}}
             </h3>
             <span ng-if="tutorial.isAuthor" ng-click="startEditTitle()" class="p-2 ml-auto">
@@ -19,7 +19,7 @@
           <div ng-if="editTitle">
             <div class="form-group">
               <div class="d-flex flex-row align-items-center">
-                <div class="form-label-group" style="width:100%;">
+                <div class="form-label-group w-100">
                   <input id="title" type="text" ng-model="tutorial.title" class="form-control" placeholder="Title">
                   <label for="title">Title</label>
                 </div>
@@ -47,7 +47,7 @@
       <div ng-if="editDescription">
         <div class="form-group">
           <div class="d-flex flex-row align-items-center">
-            <div class="form-label-group" style="width:100%;">
+            <div class="form-label-group w-100">
               <input id="description" type="text" ng-model="tutorial.description" class="form-control" placeholder="description">
               <label for="description">Description</label>
             </div>
@@ -105,7 +105,7 @@
           </div>
           <div ng-if="editStepPosition === $index">
             <div class="d-flex flex-row align-items-center">
-              <div style="width: 100%;">
+              <div class="w-100">
                 <div class="form-group">
                   <div class="form-label-group">
                     <input id="stepTitle{{$index}}" type="text" ng-model="step.title" class="form-control" placeholder="Step title">
@@ -140,7 +140,7 @@
           </div>
         </li>
         <li ng-if="!showAddNewStep && tutorial.isAuthor" class="list-group-item">
-          <div ng-click="toggleShowAddNewStep()" class="btn btn-primary float-right">Add new step <i class="fas fa-plus"></i></div>
+          <div ng-click="toggleShowAddNewStep()" class="btn btn-outline-primary float-right">Add new step <i class="fas fa-plus"></i></div>
         </li>
         <li ng-hide="!showAddNewStep" class="list-group-item">
           <div class="form-group">
@@ -165,8 +165,8 @@
               <small class="text-danger" ng-if="stepValidated && !stepLevel">Can not be empty</small>
             </div>
           </div>
-          <div ng-click="addNewStep()" class="btn btn-primary">Add step</div>
-          <div ng-click="toggleShowAddNewStep()" class="btn btn-danger">Cancel</div>
+          <div ng-click="addNewStep()" class="btn btn-outline-primary">Add step</div>
+          <div ng-click="toggleShowAddNewStep()" class="btn btn-outline-danger">Cancel</div>
         </li>
       </ol>
     </div>
@@ -179,7 +179,7 @@
     <div class="card-body">
       <div ng-repeat="review in reviews">
         <div>
-          <b style="margin-right: 10px;">Likes: {{review.likesCount}}</b>
+          <b class="mr-2">Likes: {{review.likesCount}}</b>
           <span ng-if="!likeLoading" ng-click="postLike(!review.liked, $index)">
             <i ng-if="review.liked" class="fas fa-thumbs-up fa-2x"></i>
             <i ng-if="!review.liked" class="far fa-thumbs-up fa-2x"></i>
@@ -222,45 +222,46 @@
             <small class="text-danger" ng-if="reviewValidated && !body">Can not be empty</small>
           </div>
         </div>
-        <div class="btn btn-primary float-right" ng-click="postReview()">Post a review</div>
+        <div class="btn btn-outline-primary float-right" ng-click="postReview()">Post a review</div>
         <div ng-if=(errorMessage) class="alert alert-danger">{{errorMessage}}</div>
       </form>
     </div>
   </div>
   <div class="card mt-4">
-    <div class="card-header">
+    <div class="card-header d-flex align-items-center">
       <span>Tutorial gallery</span>
-      <!-- <button ng-click="uploadImage()" ng-if="tutorial.isAuthor" class="btn btn-danger" style="margin-left:auto;">Delete tutorial</button> -->
+      <div class="custom-file w-50 ml-auto" ng-if="!image.src">
+        <input type="file" class="custom-file-input" id="inputGroupFile01" ng-model="image.src" accept="image/*"
+          select-ng-files>
+        <label class="custom-file-label" for="inputGroupFile01">{{!image.src ? 'Choose file' : 'File selected'}}</label>
+      </div>
+      <div class="ml-auto" ng-if="image.src">
+        <button class="btn btn-outline-success" ng-click="uploadImage()">Upload <i class="fas fa-check"></i></button>
+        <button class="btn btn-outline-danger" ng-click="cancelUpload()">Cancel <i class="fas fa-times"></i></button>
+      </div>
     </div>
     <div class="card-body">
       <ol class="list-group">
         <div class="row">
-          <div ng-if="images" ng-repeat="image in images" class="col-md-4" style="max-height: 200px; margin-top: 15px; margin-bottom: 15px;">
-            <div ng-if="imageLoading !== $index" ng-click="deleteImage(image, $index)">
-              <i class="fas fa-trash col-12"></i>
+          <div ng-if="images" ng-repeat="image in images" class="col-md-4 mt-3 mb-3">
+            <div class="row">
+                <div class="col-12" ng-if="imageLoading !== $index">
+                  <a href={{image.image}} target="_blank">
+                    <img class="mw-100 mh-100" ng-src="{{image.image}}">
+                  </a>
+                </div>
+                <div class="col-12" ng-if="imageLoading !== $index" ng-click="deleteImage(image, $index)">
+                  <button class="btn btn-outline-danger float-right">
+                      <i class="fas fa-trash col-12"></i>
+                  </button>
+                </div>
+                <span ng-if="imageLoading === $index">
+                  <i class="fa fa-spinner fa-spin fa-2x"></i>
+                </span>
             </div>
-            <div class="row" ng-if="imageLoading !== $index">
-              <a class="col-12" href={{image.image}} target="_blank" style="height:150px">
-                <img style="max-width: 100%; max-height: 100%;" ng-src="{{image.image}}">
-              </a>
-            </div>
-            <span ng-if="imageLoading === $index">
-              <i class="fa fa-spinner fa-spin fa-2x"></i>
-            </span>
             <hr>
           </div>
         </div>
-        <div class="row">
-            <div class="custom-file col-7">
-              <input type="file" class="custom-file-input" id="inputGroupFile01" ng-model="image.src" accept="image/*"
-                select-ng-files>
-              <label class="custom-file-label" for="inputGroupFile01">{{!image.src ? 'Choose file' : 'File selected'}}</label>
-            </div>
-            <div class="col-5">
-              <button class="btn btn-info float-right" ng-disabled="!image.src" ng-click="uploadImage()">Upload</button>
-            </div>
-        </div>
-        
       </ol>
     </div>
   </div>

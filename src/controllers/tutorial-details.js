@@ -5,10 +5,6 @@ function TutorialDetailsController($scope, $http, $routeParams, $location, $q,Se
   $http.get(`api/tutorials/${$routeParams.id}`, ApiConfig.get())
     .then((res) => {
       $scope.tutorial = res.data;
-      console.log('Is author: ', $scope.tutorial.isAuthor);
-    })
-    .catch((e) => {
-      //todo bvedad show error
     });
 
 
@@ -16,28 +12,19 @@ function TutorialDetailsController($scope, $http, $routeParams, $location, $q,Se
   $http.get(`api/tutorials/${$routeParams.id}/steps`, ApiConfig.get())
   .then((res) => {
     $scope.steps = res.data;
-  })
-  .catch((e) => {
-    //todo bvedad show error
   });
 
   //fetch reviews
   $http.get(`api/tutorials/${$routeParams.id}/reviews`, ApiConfig.get())
     .then((res) => {
       $scope.reviews = res.data;
-    })
-    .catch((e) => {
-      //todo bvedad show error
     });
 
   //fetch images
   $http.get(`api/tutorials/${$routeParams.id}/images`, ApiConfig.get())
   .then((res) => {
     $scope.images = res.data;
-  })
-  .catch((e) => {
-    //todo bvedad show error
-  })
+  });
     
   $scope.postReview = () => {
     $scope.reviewValidated = true;
@@ -50,9 +37,6 @@ function TutorialDetailsController($scope, $http, $routeParams, $location, $q,Se
       .then((res) => {
         $scope.reviews.push(res.data);
         $scope.body = null;
-      })
-      .catch(() => {
-        //todo bvedad show error
       })
       .finally(() => {
         $scope.reviewValidated = false;
@@ -71,10 +55,7 @@ function TutorialDetailsController($scope, $http, $routeParams, $location, $q,Se
       .then((res) => {
         $scope.editReviewPosition = null;
         review = res.data.review;
-      })
-      .catch((e) => {
-        //todo bvedad show error message
-      })
+      });
   }
 
   $scope.resetReview = (review, index) => {
@@ -87,10 +68,7 @@ function TutorialDetailsController($scope, $http, $routeParams, $location, $q,Se
       .then((res) => {
         $scope.editReviewPosition = null;
         $scope.reviews.splice(index, 1);
-      })
-      .catch((e) => {
-        //todo bvedad show error message
-      })
+      });
   }
 
   $scope.toggleShowAddNewStep = () => {
@@ -115,9 +93,6 @@ function TutorialDetailsController($scope, $http, $routeParams, $location, $q,Se
         $scope.showAddNewStep = false;
         clearStepInput();
       })
-      .catch((e) => {
-        //todo bvedad show error
-      })
       .finally(() => {
         $scope.stepValidated = false;
       })
@@ -134,12 +109,15 @@ function TutorialDetailsController($scope, $http, $routeParams, $location, $q,Se
       }
     })
       .then((res) => {
-        
         $scope.images.push(res.data);
       })
-      .catch((e) => {
-        //todo bvedad show error
+      .finally(() => {
+        $scope.image.src = null;
       })
+  }
+
+  $scope.cancelUpload = () => {
+    $scope.image.src = null;
   }
 
   $scope.deleteImage = (image, index) => {
@@ -148,9 +126,6 @@ function TutorialDetailsController($scope, $http, $routeParams, $location, $q,Se
     $http.delete(`api/tutorials/${$routeParams.id}/images/${image._id}`, ApiConfig.get())
     .then((res) => {
       $scope.images.splice(index, 1);
-    })
-    .catch((e) => {
-      //todo bvedad show error
     })
     .finally(() => {
       $scope.imageLoading = false;
@@ -178,10 +153,7 @@ function TutorialDetailsController($scope, $http, $routeParams, $location, $q,Se
       .then((res) => {
         $scope.editStepPosition = null;
         step = res.data.step;
-      })
-      .catch((e) => {
-        //todo bvedad show error message
-      })
+      });
   }
 
   $scope.resetStep = (step, index) => {
@@ -194,10 +166,7 @@ function TutorialDetailsController($scope, $http, $routeParams, $location, $q,Se
       .then((res) => {
         $scope.editStepPosition = null;
         $scope.steps.steps.splice(index, 1);
-      })
-      .catch((e) => {
-        //todo bvedad show error message
-      })
+      });
   }
 
   $scope.postFavorite = (state, index) => {
@@ -212,9 +181,6 @@ function TutorialDetailsController($scope, $http, $routeParams, $location, $q,Se
     .then((res) => {
       $scope.tutorial.favorited = state;
       $scope.tutorial.favoritesCount = res.data.favoritesCount;
-    })
-    .catch((e) => {
-      //todo bvedad show error message
     })
     .finally(() => {
       $scope.favoriteLoading = false;
@@ -233,9 +199,6 @@ function TutorialDetailsController($scope, $http, $routeParams, $location, $q,Se
     .then((res) => {
       $scope.reviews[index] = res.data;
     })
-    .catch((e) => {
-      //todo bvedad show error message
-    })
     .finally(() => {
       $scope.likeLoading = false;
     })
@@ -245,10 +208,7 @@ function TutorialDetailsController($scope, $http, $routeParams, $location, $q,Se
     $http.delete(`api/tutorials/${$routeParams.id}`, ApiConfig.get())
       .then((res) => {
         $location.path('/tutorials');
-      })
-      .catch((e) => {
-        //todo bvedad show error message
-      })
+      });
   }
 
   $scope.startEdit = (key, value) => {
@@ -262,10 +222,6 @@ function TutorialDetailsController($scope, $http, $routeParams, $location, $q,Se
     }, ApiConfig.get())
       .then((res) => {
         $scope.tutorial[key] = value;
-      })
-      .catch((e) => {
-        //todo bvedad show error message
-        $scope.tutorial[key] = $scope.tutorial.old[key];
       })
       .finally(() => {
         $scope.tutorial.old = undefined;
@@ -306,10 +262,6 @@ function TutorialDetailsController($scope, $http, $routeParams, $location, $q,Se
     }, ApiConfig.get())
       .then((res) => {
         $scope.tutorial.description = res.data.description;
-      })
-      .catch((e) => {
-        //todo bvedad show error message
-        $scope.tutorial.description = $scope.tutorial.old.description;
       })
       .finally(() => {
         $scope.tutorial.old = undefined;

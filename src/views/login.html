@@ -2,7 +2,7 @@
   <div class="card card-login mx-auto mt-5">
     <div class="card-header">Login</div>
     <div class="card-body">
-      <form name="loginForm">
+      <form name="loginForm" novalidate>
         <div class="form-group">
           <div class="form-label-group">
             <input type="email" ng-model="user.inputEmail" name="inputEmail" id="inputEmail" class="form-control" placeholder="Email address" required autofocus="autofocus">
@@ -17,7 +17,7 @@
             <small class="text-danger" ng-if="validated && !loginForm.inputPassword.$valid">Between 6 and 20 characters</small>
           </div>
         </div>
-        <a class="btn btn-primary btn-block" ng-click="login()">Login</a>
+        <input type="submit" class="btn btn-primary btn-block" ng-click="login()" value="Login">
         <div ng-if=(errorMessage) class="alert alert-danger">{{errorMessage}}</div>
       </form>
       <div class="text-center">

@@ -1,22 +1,16 @@
 const path = require('path'),
     express = require('express'),
     bodyParser = require('body-parser'),
-    session = require('express-session'),
-    cors = require('cors'),
     mongoose = require('mongoose'),
     config = require('./config/database');
 
 require('dotenv').config();
 const app = express();
-app.use(cors());
-app.use(require('morgan')('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(__dirname + '/public'));
 app.use('/images', express.static('./images'));
 app.use(express.static(__dirname + '/src')); // Allow front end to access public folder
-
-app.use(session({ secret: 'conduit', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false  }));
 
 if(process.env.NODE_ENV === 'production'){
   mongoose.connect(config.database);

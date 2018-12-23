@@ -1,6 +1,4 @@
-angular.module('tutorPro', ['ngRoute','ngCookies']);
-
-angular.module('tutorPro', ['ngRoute','ngCookies']).run(function($rootScope, $location, Session, ApiConfig) {
+angular.module('tutorPro', ['ngRoute','ngCookies', 'ui.bootstrap']).run(function($rootScope, $location, Session, ApiConfig) {
     $rootScope.location = $location;
     $rootScope.Session = Session;
     $rootScope.formatDate = (time) => {
@@ -47,8 +45,6 @@ angular.module('tutorPro').controller('RegisterController', RegisterController);
 angular.module('tutorPro').controller('LoginController', LoginController);
 angular.module('tutorPro').service('Session', Session);
 angular.module('tutorPro').service('ApiConfig', ApiConfig);
-angular.module('tutorPro').controller('TutorProController', TutorProController);
-
 
 
 angular.module('tutorPro').config(function($routeProvider) {
@@ -81,3 +77,32 @@ angular.module('tutorPro').config(function($routeProvider) {
         templateUrl: 'views/404.html'
     })
 });
+
+angular.module('tutorPro').controller('LoginModalDemoCtrl', function ($uibModal, $log, $document) {
+    this.open = function (size, parentSelector) {
+      $uibModal.open({
+        animation: false,
+        ariaLabelledBy: 'modal-title',
+        ariaDescribedBy: 'modal-body',
+        templateUrl: 'myModalContent.html',
+        controller: 'LoginModalInstanceCtrl',
+        controllerAs: '$ctrl',
+        size: size
+      }).result.catch(() => {});
+    };
+
+  });
+  
+  angular.module('tutorPro').controller('LoginModalInstanceCtrl', function ($uibModalInstance, Session, $location) {
+    this.logout = function() {
+        $uibModalInstance.dismiss('cancel');
+        Session.destroy();
+        $location.path('/login');
+    }
+  
+    this.cancel = function () {
+      $uibModalInstance.dismiss('cancel');
+    };
+  });
+  
+ 
