@@ -17,15 +17,12 @@ router.param('step', function(req, res, next) {
 router.get('/', auth.optional, function(req, res, next){
     return Promise.all([
       Step.find({ tutorial: req.tutorial.id})
-        .sort({ createdAt: 'desc' })
-        .populate('author')
+        .sort({ createdAt: 'asc' })
         .exec(),
       Step.count({ tutorial: req.tutorial.id}).exec(),
-      req.payload ? User.findById(req.payload.id) : null,
     ]).then(function (results) {
       var steps = results[0];
       var stepsCount = results[1];
-      var user = results[2];
       return res.json({
         steps: steps,
         stepsCount: stepsCount

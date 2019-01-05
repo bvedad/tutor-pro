@@ -1,18 +1,18 @@
-<div class="container mb-5">
+<div id="tutorial-details-container" class="container mb-5">
   <div class="card mt-4">
     <div class="card-header d-flex align-items-center">
       <span>Tutorial details</span>
-      <button ng-click="deleteTutorial()" ng-if="tutorial.isAuthor" class="btn btn-outline-danger ml-auto">Delete
+      <button id="delete-tutorial-btn" ng-click="deleteTutorial()" ng-if="tutorial.isAuthor" class="btn btn-outline-danger ml-auto">Delete
         tutorial</button>
     </div>
     <div class="card-body">
       <div class="row">
         <div class="col-sm-4 card-title">
           <div class="d-flex align-items-center" ng-if="!editTitle">
-            <h3>
+            <h3 id="tutorial-title">
               {{tutorial.title}}
             </h3>
-            <span ng-if="tutorial.isAuthor" ng-click="startEditTitle()" class="p-2 ml-auto">
+            <span id="edit-title" ng-if="tutorial.isAuthor" ng-click="startEditTitle()" class="p-2 ml-auto">
               <i class="fas fa-pen"></i>
             </span>
           </div>
@@ -23,10 +23,10 @@
                   <input id="title" type="text" ng-model="tutorial.title" class="form-control" placeholder="Title">
                   <label for="title">Title</label>
                 </div>
-                <span ng-click="submitTitle()" class="p-2">
+                <span id="submit-title" ng-click="submitTitle()" class="p-2">
                   <i class="fas fa-check"></i>
                 </span>
-                <span ng-click="resetTitle()" class="p-2">
+                <span id="reset-title" ng-click="resetTitle()" class="p-2">
                   <i class="fas fa-times"></i>
                 </span>
               </div>
@@ -36,11 +36,11 @@
         </div>
       </div>
       <div>
-        <strong>Favorites count: </strong><span class="card-text">{{tutorial.favoritesCount}}</span>
+        <strong>Favorites count: </strong><span id="favorites-count-txt" class="card-text">{{tutorial.favoritesCount}}</span>
       </div>
       <div ng-if="!editDescription">
-        <strong>Description: </strong><span class="card-text">{{tutorial.description}}</span>
-        <span ng-if="tutorial.isAuthor" ng-click="startEditDescription()" class="p-2 ml-auto">
+        <strong>Description: </strong><span id="tutorial-description" class="card-text">{{tutorial.description}}</span>
+        <span id="edit-description" ng-if="tutorial.isAuthor" ng-click="startEditDescription()" class="p-2 ml-auto">
           <i class="fas fa-pen"></i>
         </span>
       </div>
@@ -51,23 +51,23 @@
               <input id="description" type="text" ng-model="tutorial.description" class="form-control" placeholder="description">
               <label for="description">Description</label>
             </div>
-            <span ng-click="submitDescription()" class="p-2">
+            <span id="submit-description" ng-click="submitDescription()" class="p-2">
               <i class="fas fa-check"></i>
             </span>
-            <span ng-click="resetDescription()" class="p-2">
+            <span id="reset-description" ng-click="resetDescription()" class="p-2">
               <i class="fas fa-times"></i>
             </span>
           </div>
           <small class="text-danger" ng-if="!tutorial.description">Can not be empty</small>
         </div>
       </div>
-      <div ng-click="postFavorite(!tutorial.favorited, index)">
+      <div id="mark-favorite-btn" ng-click="postFavorite(!tutorial.favorited, index)">
         Favorite:
         <span ng-if="!favoriteLoading">
-          <i ng-if="tutorial.favorited" class="fas fa-heart fa-2x"></i>
-          <i ng-if="!tutorial.favorited" class="far fa-heart fa-2x"></i>
+          <i id="tutorial-favorited" ng-if="tutorial.favorited" class="fas fa-heart fa-2x"></i>
+          <i id="tutorial-unfavorited" ng-if="!tutorial.favorited" class="far fa-heart fa-2x"></i>
         </span>
-        <span ng-if="favoriteLoading">
+        <span id="favorite-loader" ng-if="favoriteLoading">
           <i class="fa fa-spinner fa-spin fa-2x"></i>
         </span>
       </div>
@@ -90,16 +90,16 @@
                 <strong>Step {{$index + 1}}</strong>
               </div>
               <div>
-                <strong>Title: </strong><span>{{step.title}}</span>
+                <strong>Title: </strong><span id="step-title-{{$index}}">{{step.title}}</span>
               </div>
               <div>
-                <strong>Description: </strong><span>{{step.description}}</span>
+                <strong>Description: </strong><span id="step-description-{{$index}}">{{step.description}}</span>
               </div>
               <div>
-                <strong>Level: </strong><span>{{step.level}}</span>
+                <strong>Level: </strong><span id="step-level-{{$index}}">{{step.level}}</span>
               </div>
             </div>
-            <span ng-if="tutorial.isAuthor" ng-click="startStepEdit(step, $index)" class="p-2 ml-auto">
+            <span id="edit-step-{{$index}}" ng-if="tutorial.isAuthor" ng-click="startStepEdit(step, $index)" class="p-2 ml-auto">
               <i class="fas fa-pen"></i>
             </span>
           </div>
@@ -123,24 +123,24 @@
                 </div>
                 <div class="form-group">
                   <div class="form-label-group">
-                    <select ng-options="level for level in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" ng-model="step.level" class="form-control"></select>
+                    <select id="stepLevel{{$index}}" ng-options="level for level in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" ng-model="step.level" class="form-control"></select>
                   </div>
                 </div>
               </div>
-              <span ng-click="submitStep(step, $index)" class="p-2">
+              <span id="submit-step-{{$index}}" ng-click="submitStep(step, $index)" class="p-2">
                 <i class="fas fa-check"></i>
               </span>
-              <span ng-click="resetStep(step, $index)" class="p-2">
+              <span id="reset-step-{{$index}}" ng-click="resetStep(step, $index)" class="p-2">
                 <i class="fas fa-times"></i>
               </span>
-              <span ng-click="removeStep(step, $index)" class="p-2">
+              <span id="remove-step-{{$index}}" ng-click="removeStep(step, $index)" class="p-2">
                 <i class="fas fa-trash"></i>
               </span>
             </div>
           </div>
         </li>
         <li ng-if="!showAddNewStep && tutorial.isAuthor" class="list-group-item">
-          <div ng-click="toggleShowAddNewStep()" class="btn btn-outline-primary float-right">Add new step <i class="fas fa-plus"></i></div>
+          <div id="add-new-step-btn" ng-click="toggleShowAddNewStep()" class="btn btn-outline-primary float-right">Add new step <i class="fas fa-plus"></i></div>
         </li>
         <li ng-hide="!showAddNewStep" class="list-group-item">
           <div class="form-group">
@@ -159,13 +159,13 @@
           </div>
           <div class="form-group">
             <div class="form-label-group">
-              <select class="form-control" ng-model="stepLevel">
+              <select id="stepLevel" class="form-control" ng-model="stepLevel">
                 <option ng-repeat="level in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">{{level}}</option>
               </select>
               <small class="text-danger" ng-if="stepValidated && !stepLevel">Can not be empty</small>
             </div>
           </div>
-          <div ng-click="addNewStep()" class="btn btn-outline-primary">Add step</div>
+          <div id="create-new-step-btn" ng-click="addNewStep()" class="btn btn-outline-primary">Add step</div>
           <div ng-click="toggleShowAddNewStep()" class="btn btn-outline-danger">Cancel</div>
         </li>
       </ol>
@@ -177,52 +177,52 @@
       Tutorial Reviews
     </div>
     <div class="card-body">
-      <div ng-repeat="review in reviews">
+      <div ng-repeat="review in reviews" id="tutorial-review-{{$index}}">
         <div>
-          <b class="mr-2">Likes: {{review.likesCount}}</b>
-          <span ng-if="!likeLoading" ng-click="postLike(!review.liked, $index)">
-            <i ng-if="review.liked" class="fas fa-thumbs-up fa-2x"></i>
-            <i ng-if="!review.liked" class="far fa-thumbs-up fa-2x"></i>
+          <b class="mr-2">Likes: <span id="review-like-count-{{$index}}">{{review.likesCount}}</span></b>
+          <span id="like-review-{{$index}}" ng-if="!likeLoading" ng-click="postLike(!review.liked, $index)">
+            <i id="favorited-review-{{$index}}" ng-if="review.liked" class="fas fa-thumbs-up fa-2x"></i>
+            <i id="unfavorited-review-{{$index}}" ng-if="!review.liked" class="far fa-thumbs-up fa-2x"></i>
           </span>
           <span ng-if="likeLoading">
-            <i class="fa fa-spinner fa-spin fa-2x"></i>
+            <i id="like-review-spinner-{{$index}}" class="fa fa-spinner fa-spin fa-2x"></i>
           </span>
         </div>
         <div ng-if="editReviewPosition !== $index" class="d-flex flex-row align-items-center">
-          <div>{{review.body}}</div>
-          <span ng-click="startReviewEdit(review, $index)" class="p-2 ml-auto">
+          <div id="review-body-txt-{{$index}}">{{review.body}}</div>
+          <span id="edit-review-btn-{{$index}}" ng-click="startReviewEdit(review, $index)" class="p-2 ml-auto">
             <i ng-if="review.isAuthor" class="fas fa-pen"></i>
           </span>
         </div>
         <div ng-if="editReviewPosition === $index">
           <div class="d-flex flex-row align-items-center">
-            <input type="text" ng-model="review.body" class="form-control">
-            <span ng-click="submitReview(review, $index)" class="p-2">
+            <input id="review-body-input-{{$index}}" type="text" ng-model="review.body" class="form-control">
+            <span id="submit-review-btn-{{$index}}" ng-click="submitReview(review, $index)" class="p-2">
               <i class="fas fa-check"></i>
             </span>
-            <span ng-click="resetReview(review, $index)" class="p-2">
+            <span id="reset-review-btn-{{$index}}" ng-click="resetReview(review, $index)" class="p-2">
               <i class="fas fa-times"></i>
             </span>
-            <span ng-click="removeReview(review, $index)" class="p-2">
+            <span id="remove-review-btn-{{$index}}" ng-click="removeReview(review, $index)" class="p-2">
               <i class="fas fa-trash"></i>
             </span>
           </div>
           <small class="text-danger" ng-if="!review.body">Can not be empty</small>
         </div>
         <div>
-          <small class="text-muted">Posted by {{review.author.username}} on {{formatDate(review.createdAt)}}</small>
+          <small id="review-posted-by-txt-{{$index}}" class="text-muted">Posted by {{review.author.username}} on {{formatDate(review.createdAt)}}</small>
         </div>
         <hr>
       </div>
       <form name="tutorialForm">
         <div class="form-group">
           <div class="form-label-group">
-            <input type="text" ng-model="body" id="body" class="form-control" placeholder="Body" required>
-            <label for="body">Body</label>
+            <input id="review-body-input" type="text" ng-model="body" class="form-control" placeholder="Body" required>
+            <label for="review-body-input">Body</label>
             <small class="text-danger" ng-if="reviewValidated && !body">Can not be empty</small>
           </div>
         </div>
-        <div class="btn btn-outline-primary float-right" ng-click="postReview()">Post a review</div>
+        <div id="post-review-btn" class="btn btn-outline-primary float-right" ng-click="postReview()">Post a review</div>
         <div ng-if=(errorMessage) class="alert alert-danger">{{errorMessage}}</div>
       </form>
     </div>

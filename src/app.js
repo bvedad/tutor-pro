@@ -61,6 +61,10 @@ angular.module('tutorPro').config(function($routeProvider) {
         templateUrl: 'views/tutorial-list.html',
         controller: 'TutorialListController'
     })
+    .when('/', {
+        templateUrl: 'views/tutorial-list.html',
+        controller: 'TutorialListController'
+    })
     .when('/tutorials/:id', {
         templateUrl: 'views/tutorial-details.html',
         controller: 'TutorialDetailsController'

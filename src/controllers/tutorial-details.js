@@ -44,8 +44,12 @@ function TutorialDetailsController($scope, $http, $routeParams, $location, $q,Se
   }
 
   $scope.startReviewEdit = (review, index) => {
+    if($scope.editReviewPosition != null) {
+      $scope.reviews[$scope.editReviewPosition] = $scope.reviews[$scope.editReviewPosition].old;
+      $scope.reviews[$scope.editReviewPosition].old = undefined;
+    }
     $scope.editReviewPosition = index;
-    review.old = review.body.toString();
+    $scope.reviews[index].old = JSON.parse(JSON.stringify($scope.reviews[index]));
   }
 
   $scope.submitReview = (review, index) => {
@@ -60,7 +64,8 @@ function TutorialDetailsController($scope, $http, $routeParams, $location, $q,Se
 
   $scope.resetReview = (review, index) => {
     $scope.editReviewPosition = null;
-    review.old = undefined;
+    $scope.reviews[index] = $scope.reviews[index].old;
+    $scope.reviews[index].old = undefined;
   }
 
   $scope.removeReview = (review, index) => {
@@ -140,8 +145,12 @@ function TutorialDetailsController($scope, $http, $routeParams, $location, $q,Se
   }
 
   $scope.startStepEdit = (step, index) => {
+    if($scope.editStepPosition != null) {
+      $scope.steps.steps[$scope.editStepPosition] = $scope.steps.steps[$scope.editStepPosition].old;
+      $scope.steps.steps[$scope.editStepPosition].old = undefined;
+    }
     $scope.editStepPosition = index;
-    step.old = step;
+    $scope.steps.steps[index].old = JSON.parse(JSON.stringify($scope.steps.steps[index]));
   }
 
   $scope.submitStep = (step, index) => {
@@ -158,7 +167,8 @@ function TutorialDetailsController($scope, $http, $routeParams, $location, $q,Se
 
   $scope.resetStep = (step, index) => {
     $scope.editStepPosition = null;
-    step.old = undefined;
+    $scope.steps.steps[index] = $scope.steps.steps[index].old;
+    $scope.steps.steps[index].old = undefined;
   }
 
   $scope.removeStep = (step, index) => {
@@ -217,14 +227,11 @@ function TutorialDetailsController($scope, $http, $routeParams, $location, $q,Se
   }
 
   $scope.submitEdit = (key, value) => {
-    $http.put(`api/tutorials/${$routeParams.id}`, {
-      key: value
-    }, ApiConfig.get())
-      .then((res) => {
-        $scope.tutorial[key] = value;
-      })
-      .finally(() => {
-        $scope.tutorial.old = undefined;
+    let requestPayload = {};
+    requestPayload[key] = value;
+    $http.put(`api/tutorials/${$routeParams.id}`, requestPayload, ApiConfig.get())
+      .catch(() => {
+        $scope.tutorial[key] = $scope.tutorial.old[key];
       });
   }
 
@@ -270,7 +277,6 @@ function TutorialDetailsController($scope, $http, $routeParams, $location, $q,Se
 
   $scope.resetDescription = () => {
     $scope.editDescription = false;
-    $scope.tutorial.description = $scope.tutorial.old.description;
-    $scope.tutorial.old.description = undefined;
+    $scope.resetEdit('description'); 
   }
 }

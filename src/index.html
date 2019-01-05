@@ -28,18 +28,18 @@
   <script type="text/javascript" src="app.js"></script>
 </head>
 
-<body ng-app="tutorPro" id="page-top" ng-controller="TutorProController">
+<body ng-app="tutorPro" id="body" ng-controller="TutorProController">
   <nav ng-if="!!Session.get()" class="navbar navbar-expand navbar-dark bg-dark static-top">
     <a class="navbar-brand mr-1" href="#!/tutorials">Tutor Pro</a>
     <ul class="navbar-nav ml-auto">
       <li class="nav-item ng-class:{active: location.path() === '/tutorials'}">
-        <a class="nav-link" href="#!tutorials">
+        <a id="tutorial-list-tab-btn" class="nav-link" href="#!tutorials">
           <i class="fas fa-list"></i>
           <span>Tutorial list</span>
         </a>
       </li>
       <li class="nav-item ng-class:{active: location.path() === '/tutorial-post'}">
-        <a class="nav-link" href="#!tutorial-post">
+        <a id="tutorial-post-tab-btn" class="nav-link" href="#!tutorial-post">
           <i class="fas fa-file"></i>
           <span>Tutorial post</span>
         </a>
@@ -54,7 +54,7 @@
                 Are you sure you want to logout?
               </div>
               <div class="modal-footer">
-                <button class="btn btn-outline-danger" type="button" ng-click="$ctrl.logout()">Logout</button>
+                <button id="confirm-logout-btn" class="btn btn-outline-danger" type="button" ng-click="$ctrl.logout()">Logout</button>
                 <button class="btn btn-outline-secondary" type="button" ng-click="$ctrl.cancel()">Cancel</button>
               </div>
           </script>
@@ -66,7 +66,7 @@
                   Having multiple modals open at once is probably bad UX but it's technically possible.
               </div>
           </script>
-          <a class="nav-link dropdown-toggle" ng-click="$ctrl.open()">
+          <a id="logout-btn" class="nav-link dropdown-toggle" ng-click="$ctrl.open()">
             <i class="fas fa-sign-out-alt fa-fw"></i>
           </a>
           <div class="modal-parent">

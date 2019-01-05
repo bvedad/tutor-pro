@@ -13,7 +13,7 @@
         </div>
         <div class="form-group">
           <div class="form-label-group">
-            <textarea rows="5" type="text" ng-model="tutorial.description" class="form-control" placeholder="Description"></textarea>
+            <textarea id="description" rows="5" type="text" ng-model="tutorial.description" class="form-control" placeholder="Description"></textarea>
               <small class="text-danger" ng-if="validated && !tutorial.description">Can not be empty</small>
           </div>
         </div>
@@ -33,13 +33,13 @@
           </div>
           <div class="form-group">
             <div class="form-label-group">
-              <textarea rows="5" type="text" ng-model="step.description" class="form-control" placeholder="Step description"></textarea>
+              <textarea id="step-description-{{$index}}" rows="5" type="text" ng-model="step.description" class="form-control" placeholder="Step description"></textarea>
               <small class="text-danger" ng-if="validated && !step.description">Can not be empty</small>
             </div>
           </div>
           <div class="form-group">
             <div class="form-label-group">
-              <select class="form-control" ng-model="step.level">
+              <select id="level-select-{{$index}}" class="form-control" ng-model="step.level">
                 <option ng-repeat="level in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">{{level}}</option>
               </select>
               <small class="text-danger" ng-if="validated && !step.level">Can not be empty</small>
@@ -49,8 +49,8 @@
         </li>
       </ol>
 
-      <div ng-click="addNewStep($index)" class="btn btn-primary float-right"><i class="fas fa-plus"></i></div>
-      <div class="btn btn-primary btn-block mt-5" ng-click="createTutorial()">Create tutorial</div>
+      <div id="add-new-step-btn" ng-click="addNewStep($index)" class="btn btn-primary float-right"><i class="fas fa-plus"></i></div>
+      <div id="create-tutorial-btn" class="btn btn-primary btn-block mt-5" ng-click="createTutorial()">Create tutorial</div>
       <div ng-if=(errorMessage) class="alert alert-danger">{{errorMessage}}</div>
     </div>
   </div>

@@ -1,4 +1,4 @@
-<div class="card-header">
+<div id="tutorial-list-container" class="card-header">
   Tutorial list
 </div>
 <nav ng-if="tutorials && tutorials.tutorials.length" class="mt-2 d-flex justify-content-center" aria-label="Page navigation example">
@@ -15,12 +15,12 @@
     <div ng-repeat="tutorial in tutorials.tutorials" class="col-md-6 mt-2">
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">{{tutorial.title}}</h5>
-          <p class="card-text abbreviate-text">{{tutorial.description}}</p>
-          <a href="#!tutorials/{{tutorial._id}}" class="btn btn-primary">More details</a>
+          <h5 id="tutorial-title-{{$index}}" class="card-title">{{tutorial.title}}</h5>
+          <p id="tutorial-description-{{$index}}" class="card-text abbreviate-text">{{tutorial.description}}</p>
+          <a id="more-details-{{$index}}" href="#!tutorials/{{tutorial._id}}" class="btn btn-primary">More details</a>
         </div>
         <div class="card-footer text-muted">
-          <p class="card-text">Created by {{tutorial.author.username}} at {{formatDate(tutorial.createdAt)}}</p>
+          <p id="tutorial-created-by-txt-{{$index}}" class="card-text">Created by {{tutorial.author.username}} at {{formatDate(tutorial.createdAt)}}</p>
         </div>
       </div>
     </div>
