@@ -72,27 +72,23 @@ router.get('/:image', auth.optional, function(req, res, next){
     }).catch(next);
 });
 
-router.post('/', upload.single('image'), auth.required, function(req, res, next) {
+router.post('/', auth.required, upload.single('image'), function(req, res, next) {
   User.findById(req.payload.id).then(function(user){
-    if(!user){ return res.sendStatus(401); }
-    if(req.tutorial.author._id.toString() === req.payload.id.toString()) {
-      var image = new Image();
-      image.name = req.body.name;
-      image.body = req.body.body;
-      image.tutorial = req.tutorial;
-      image.author = user;
-      image.image = req.file.path;
-      image.tutorial = req.tutorial;
-      image.author = user;
-      return image.save().then(function(){
-        req.tutorial.images.push(image);
-        return req.tutorial.save().then(function(tutorial) {
-          res.json(image.toJSONFor(user));
-        });
+  if(!user){ return res.sendStatus(401); }
+    var image = new Image();
+    image.name = req.body.name;
+    image.body = req.body.body;
+    image.tutorial = req.tutorial;
+    image.author = user;
+    image.image = req.file.path;
+    image.tutorial = req.tutorial;
+    image.author = user;
+    return image.save().then(function(){
+      req.tutorial.images.push(image);
+      return req.tutorial.save().then(function(tutorial) {
+        res.json(image.toJSONFor(user));
       });
-    } else {
-      return res.sendStatus(403);
-    }
+    });
   }).catch(next);
 });
 

@@ -73,7 +73,7 @@
       </div>
     </div>
     <div class="card-footer text-muted">
-      <p class="card-text">Created by {{tutorial.author.username}} at {{formatDate(tutorial.createdAt)}}</p>
+      <p class="card-text">Created by <span ng-if="tutorial">{{tutorial.author.username}} at {{formatDate(tutorial.createdAt)}}</span></p>
     </div>
   </div>
 
@@ -165,8 +165,8 @@
               <small class="text-danger" ng-if="stepValidated && !stepLevel">Can not be empty</small>
             </div>
           </div>
-          <div id="create-new-step-btn" ng-click="addNewStep()" class="btn btn-outline-primary">Add step</div>
-          <div ng-click="toggleShowAddNewStep()" class="btn btn-outline-danger">Cancel</div>
+          <div id="create-new-step-btn" ng-click="addNewStep()" class="btn btn-outline-primary ng-class:{disabled: addingStep == true}">Add step</div>
+          <div ng-click="toggleShowAddNewStep()" class="btn btn-outline-danger ng-class:{disabled: addingStep == true}">Cancel</div>
         </li>
       </ol>
     </div>
@@ -180,11 +180,11 @@
       <div ng-repeat="review in reviews" id="tutorial-review-{{$index}}">
         <div>
           <b class="mr-2">Likes: <span id="review-like-count-{{$index}}">{{review.likesCount}}</span></b>
-          <span id="like-review-{{$index}}" ng-if="!likeLoading" ng-click="postLike(!review.liked, $index)">
+          <span id="like-review-{{$index}}" ng-if="!likeLoading[$index]" ng-click="postLike(!review.liked, $index)">
             <i id="favorited-review-{{$index}}" ng-if="review.liked" class="fas fa-thumbs-up fa-2x"></i>
             <i id="unfavorited-review-{{$index}}" ng-if="!review.liked" class="far fa-thumbs-up fa-2x"></i>
           </span>
-          <span ng-if="likeLoading">
+          <span ng-if="likeLoading[$index]">
             <i id="like-review-spinner-{{$index}}" class="fa fa-spinner fa-spin fa-2x"></i>
           </span>
         </div>
@@ -197,15 +197,22 @@
         <div ng-if="editReviewPosition === $index">
           <div class="d-flex flex-row align-items-center">
             <input id="review-body-input-{{$index}}" type="text" ng-model="review.body" class="form-control">
-            <span id="submit-review-btn-{{$index}}" ng-click="submitReview(review, $index)" class="p-2">
-              <i class="fas fa-check"></i>
-            </span>
-            <span id="reset-review-btn-{{$index}}" ng-click="resetReview(review, $index)" class="p-2">
-              <i class="fas fa-times"></i>
-            </span>
-            <span id="remove-review-btn-{{$index}}" ng-click="removeReview(review, $index)" class="p-2">
-              <i class="fas fa-trash"></i>
-            </span>
+            <div ng-if="!removeReview[$index]">
+              <span id="submit-review-btn-{{$index}}" ng-click="submitReview(review, $index)" class="p-2">
+                <i class="fas fa-check"></i>
+              </span>
+              <span id="reset-review-btn-{{$index}}" ng-click="resetReview(review, $index)" class="p-2">
+                <i class="fas fa-times"></i>
+              </span>
+              <span id="remove-review-btn-{{$index}}" ng-click="removeReview(review, $index)" class="p-2">
+                <i class="fas fa-trash"></i>
+              </span>
+            </div>
+            <div ng-if="removeReview[$index]">
+              <div class="spinner-grow d-flex ml-auto">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </div>
           </div>
           <small class="text-danger" ng-if="!review.body">Can not be empty</small>
         </div>
@@ -222,7 +229,7 @@
             <small class="text-danger" ng-if="reviewValidated && !body">Can not be empty</small>
           </div>
         </div>
-        <div id="post-review-btn" class="btn btn-outline-primary float-right" ng-click="postReview()">Post a review</div>
+        <button id="post-review-btn" class="btn btn-outline-primary float-right ng-class:{disabled: postingReview == true}" ng-click="postReview()">Post review</button>
         <div ng-if=(errorMessage) class="alert alert-danger">{{errorMessage}}</div>
       </form>
     </div>

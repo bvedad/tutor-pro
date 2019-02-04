@@ -1,5 +1,7 @@
 function TutorialDetailsController($scope, $http, $routeParams, $location, $q,Session, ApiConfig) {
   $scope.image = {};
+  $scope.likeLoading = [];
+  $scope.removeReview = [];
 
   //fetch tutorial details
   $http.get(`api/tutorials/${$routeParams.id}`, ApiConfig.get())
@@ -27,10 +29,14 @@ function TutorialDetailsController($scope, $http, $routeParams, $location, $q,Se
   });
     
   $scope.postReview = () => {
+    if($scope.postingReview) {
+      return;
+    }
     $scope.reviewValidated = true;
     if (!$scope.body) {
       return;
     }
+    $scope.postingReview = true;
     $http.post(`api/tutorials/${$routeParams.id}/reviews`, {
       "body": $scope.body,
     }, ApiConfig.get())
@@ -40,6 +46,7 @@ function TutorialDetailsController($scope, $http, $routeParams, $location, $q,Se
       })
       .finally(() => {
         $scope.reviewValidated = false;
+        $scope.postingReview = false;
       })
   }
 
@@ -69,14 +76,21 @@ function TutorialDetailsController($scope, $http, $routeParams, $location, $q,Se
   }
 
   $scope.removeReview = (review, index) => {
+    $scope.removeReview[index] = true;
     $http.delete(`api/tutorials/${$routeParams.id}/reviews/${review._id}`, ApiConfig.get())
       .then((res) => {
         $scope.editReviewPosition = null;
         $scope.reviews.splice(index, 1);
-      });
+      })
+      .finally(() => {
+        $scope.removeReview[index] = false;
+      })
   }
 
   $scope.toggleShowAddNewStep = () => {
+    if($scope.addingStep) {
+      return;
+    }
     $scope.showAddNewStep = !$scope.showAddNewStep;
     if ($scope.showAddNewStep) {
       clearStepInput();
@@ -84,10 +98,14 @@ function TutorialDetailsController($scope, $http, $routeParams, $location, $q,Se
   }
 
   $scope.addNewStep = () => {
+    if($scope.addingStep) {
+      return;
+    }
     $scope.stepValidated = true;
     if (!$scope.stepTitle || !$scope.stepDescription || !$scope.stepLevel) {
       return;
     }
+    $scope.addingStep = true;
     $http.post(`api/tutorials/${$routeParams.id}/steps`, {
       "title": $scope.stepTitle,
       "description": $scope.stepDescription,
@@ -100,6 +118,7 @@ function TutorialDetailsController($scope, $http, $routeParams, $location, $q,Se
       })
       .finally(() => {
         $scope.stepValidated = false;
+        $scope.addingStep = false;
       })
   }
 
@@ -199,7 +218,7 @@ function TutorialDetailsController($scope, $http, $routeParams, $location, $q,Se
 
   $scope.postLike = (state, index) => {
     let promise;
-    $scope.likeLoading = true;
+    $scope.likeLoading[index] = true;
     if (state) {
       promise = $http.post(`api/tutorials/${$routeParams.id}/reviews/${$scope.reviews[index]._id}/likes`, null, ApiConfig.get());
     } else {
@@ -210,7 +229,7 @@ function TutorialDetailsController($scope, $http, $routeParams, $location, $q,Se
       $scope.reviews[index] = res.data;
     })
     .finally(() => {
-      $scope.likeLoading = false;
+      $scope.likeLoading[index] = false;
     })
   }
 

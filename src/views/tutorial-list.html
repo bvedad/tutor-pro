@@ -1,32 +1,38 @@
 <div id="tutorial-list-container" class="card-header">
-  Tutorial list
+  <span>Tutorial list</span>
 </div>
-<nav ng-if="tutorials && tutorials.tutorials.length" class="mt-2 d-flex justify-content-center" aria-label="Page navigation example">
-  <ul class="pagination">
-    <li ng-click="loadPage(tutorials.page - 1)" class="page-item ng-class:{disabled:tutorials.page == 1}"><span class="page-link">Previous</span></li>
-    <li ng-click="loadPage($index + 1)" ng-repeat="page in [].constructor(tutorials.pages) track by $index" class="page-item ng-class:{active:tutorials.page === ($index + 1)}"><a
-        class="page-link">{{$index + 1}}</a></li>
-    <li ng-click="loadPage(tutorials.page + 1)" class="page-item ng-class:{disabled:tutorials.page == tutorials.pages}"><span
-        class="page-link">Next</span></li>
-  </ul>
-</nav>
-<div class="card-body">
-  <div class="row">
-    <div ng-repeat="tutorial in tutorials.tutorials" class="col-md-6 mt-2">
-      <div class="card">
-        <div class="card-body">
-          <h5 id="tutorial-title-{{$index}}" class="card-title">{{tutorial.title}}</h5>
-          <p id="tutorial-description-{{$index}}" class="card-text abbreviate-text">{{tutorial.description}}</p>
-          <a id="more-details-{{$index}}" href="#!tutorials/{{tutorial._id}}" class="btn btn-primary">More details</a>
-        </div>
-        <div class="card-footer text-muted">
-          <p id="tutorial-created-by-txt-{{$index}}" class="card-text">Created by {{tutorial.author.username}} at {{formatDate(tutorial.createdAt)}}</p>
+<div ng-if="!isLoading">
+  <nav class="mt-2 d-flex justify-content-center" aria-label="Page navigation example">
+    <ul class="pagination">
+      <li ng-click="loadPage(tutorials.page - 1)" class="page-item ng-class:{disabled:tutorials.page == 1}"><span class="page-link">Previous</span></li>
+      <li ng-click="loadPage($index + 1)" ng-repeat="page in [].constructor(tutorials.pages) track by $index" class="page-item ng-class:{active:tutorials.page === ($index + 1)}"><a
+          class="page-link">{{$index + 1}}</a></li>
+      <li ng-click="loadPage(tutorials.page + 1)" class="page-item ng-class:{disabled:tutorials.page == tutorials.pages}"><span
+          class="page-link">Next</span></li>
+    </ul>
+  </nav>
+  <div class="card-body">
+      <div class="row">
+        <div ng-repeat="tutorial in tutorials.tutorials" class="col-md-6 mt-2">
+          <div class="card">
+            <div class="card-body">
+              <h5 id="tutorial-title-{{$index}}" class="card-title">{{tutorial.title}}</h5>
+              <p id="tutorial-description-{{$index}}" class="card-text abbreviate-text">{{tutorial.description}}</p>
+              <a id="more-details-{{$index}}" href="#!tutorials/{{tutorial._id}}" class="btn btn-primary">More details</a>
+            </div>
+            <div class="card-footer text-muted">
+              <p id="tutorial-created-by-txt-{{$index}}" class="card-text">Created by {{tutorial.author.username}} at {{formatDate(tutorial.createdAt)}}</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
+    <div ng-if="tutorials && !tutorials.tutorials.length">
+      <h3><strong>No tutorials</strong> To add tutorial <a href="#!tutorial-post" class="alert-link">go here</a>.</h1>
+    </div>
+</div>
+<div ng-if="isLoading" class="text-center">
+  <div class="spinner-grow" style="width: 4rem; height: 4rem;">
+    <span class="sr-only">Loading...</span>
   </div>
-</div>
-<div ng-if="tutorials && !tutorials.tutorials.length">
-  <h3><strong>No tutorials</strong> To add tutorial <a href="#!tutorial-post" class="alert-link">go here</a>.</h1>
-</div>
 </div>
